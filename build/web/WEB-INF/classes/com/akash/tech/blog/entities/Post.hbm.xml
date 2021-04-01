@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jan 27, 2021 10:38:44 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.akash.tech.blog.entities.Post" table="post" catalog="techblog" optimistic-lock="version">
+        <id name="pdi" type="java.lang.Integer">
+            <column name="pdi" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="category" class="com.akash.tech.blog.entities.Category" fetch="select">
+            <column name="catid" not-null="true" />
+        </many-to-one>
+        
+         <many-to-one name="user" class="com.akash.tech.blog.entities.User" fetch="select">
+            <column name="userid" not-null="true" />
+        </many-to-one>
+        <property name="ptitle" type="string">
+            <column name="ptitle" length="200" not-null="true" />
+        </property>
+        <property name="pcontent" type="string">
+            <column name="pcontent" not-null="true" />
+        </property>
+        <property name="ppic" type="string">
+            <column name="ppic" length="500" not-null="true" />
+        </property>
+        <property name="pcode" type="string">
+            <column name="pcode" not-null="true" />
+        </property>
+        <property name="pdate" type="timestamp" update="false" insert="false" generated="insert">
+            <column name="pdate" length="19" not-null="true"   />
+        </property>
+    </class>
+</hibernate-mapping>
