@@ -17,5 +17,5 @@ $('#add-post-form').submit(function(event){
             console.log('servlet');
         }
         
-    })
+    });
 });

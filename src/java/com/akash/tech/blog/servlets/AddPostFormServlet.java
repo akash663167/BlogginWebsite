@@ -49,7 +49,7 @@ public class AddPostFormServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-
+            
             String cid = request.getParameter("cid");
             String ptitle = request.getParameter("ptitle");
             String pcontent = request.getParameter("pcontent");
@@ -59,16 +59,16 @@ public class AddPostFormServlet extends HttpServlet {
             Part part = request.getPart("ppic");
             InputStream is = part.getInputStream();
             ppic = FileHelper.getFileName(part);
-
+            
             Category cat = new Category();
             cat.setCid(Integer.parseInt(cid));
             HttpSession session = request.getSession(false);
             User user = (User) session.getAttribute("CurrentUser");
-            Post post = new Post(ptitle, pcontent, ppic, pcode, cat,user);
+            Post post = new Post(ptitle, pcontent, ppic, pcode, cat, user);
             System.out.println("post" + post);
             PostDao dao = new PostDao();
             SessionFactory factory = HibernateUtil.getSessionFactory();
-
+            
             Session sess = factory.openSession();
             int i = 0;
             i = dao.savePost(sess, post);
@@ -78,21 +78,22 @@ public class AddPostFormServlet extends HttpServlet {
                 out.println("error");
             } else {
                 System.out.println("no of records updated " + i);
-                if(ppic != null && !ppic.equals("")){
-                String path = "E:\\Project\\AkashBlog\\BloggingWebsite\\build\\web\\" + "pics" + File.separator
-                        + ppic;
-
-                System.out.println("" + path);
-                FileHelper.deleteFile(path);
-
-                if (FileHelper.saveFile(path, is)) {
-                    System.out.println("Updated");
-                }
+                if (ppic != null && !ppic.equals("")) {
+                    String path = "E:\\Project\\AkashBlog\\BloggingWebsite\\build\\web\\" + "pics" + File.separator
+                            + ppic;
+                    
+                    System.out.println("" + path);
+                    FileHelper.deleteFile(path);
+                    
+                    if (FileHelper.saveFile(path, is)) {
+                        System.out.println("Updated");
+                    }
                 }
                 out.println("submitted");
                 //request.getRequestDispatcher("profile.jsp").forward(request, response);
             }
-
+            request.getRequestDispatcher("profile.jsp").forward(request, response);
+            
             sess.close();
             
         }
